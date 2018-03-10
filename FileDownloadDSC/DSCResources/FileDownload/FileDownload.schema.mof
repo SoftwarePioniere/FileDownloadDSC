@@ -1,0 +1,6 @@
+[ClassVersion("1.0.0"), FriendlyName("FileDownload")]
+class FileDownload : OMI_BaseResource
+{
+    [Key, Description("Specifies the local filename.")] string FileName;
+    [Required, Description("Specifies the file download url.")] string Url;
+};
