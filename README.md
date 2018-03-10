@@ -33,7 +33,7 @@ Run as Administrator
 
 #Link folder to Powershell Modules Directory
 
-$originalPath =  "$(Get-Location)\FileDownloadDSC"
+$originalPath =  "$(Get-Location)"
 $pathInModuleDir = 'C:\Program Files\WindowsPowerShell\Modules\FileDownloadDSC'
 
 New-Item -ItemType SymbolicLink -Path $pathInModuleDir -Target $originalPath
