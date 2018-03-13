@@ -20,29 +20,23 @@ Configuration Sample1
 
 ```
 
-## Publishing
+## Development
 
 ```
-Publish-Module -Name FileDownloadDSC -NuGetApiKey <apiKey>
-```
+#adding Gallery API Key to Environment
+$env:PS_GALLERY_API_KEY = "XXX"
 
-## Local Development
+#list module path
+$env:PSModulePath -split ';'
 
-```
-Run as Administrator
+#adding local folder to PSModulePath
+$env:PSModulePath = $env:PSModulePath + ";$(Get-Location)"
 
-#Link folder to Powershell Modules Directory
-
-$originalPath =  "$(Get-Location)"
-$pathInModuleDir = 'C:\Program Files\WindowsPowerShell\Modules\FileDownloadDSC'
-
-New-Item -ItemType SymbolicLink -Path $pathInModuleDir -Target $originalPath
-
-#Unlink Folder
-Remove-Item -Path $pathInModuleDir -Force -Recurse
+Publish-Module -Name FileDownloadDSC -NuGetApiKey $env:PS_GALLERY_API_KEY 
 
 ```
 
 ## Links
 
 https://hodgkins.io/five-tips-for-writing-dsc-resources-in-powershell-version-5
+https://kevinmarquette.github.io/2017-05-27-Powershell-module-building-basics/?utm_source=blog&utm_medium=blog&utm_content=psrepository
