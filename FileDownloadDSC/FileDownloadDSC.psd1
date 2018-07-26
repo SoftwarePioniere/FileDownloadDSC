@@ -13,7 +13,7 @@
     PrivateData = @{
         PSData = @{
             ProjectUri = 'https://github.com/SoftwarePioniere/FileDownloadDSC'
-        }    
+        }
     }
 }
 

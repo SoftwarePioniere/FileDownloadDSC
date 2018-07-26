@@ -22,21 +22,20 @@ Configuration Sample1
 
 ## Development
 
-```
-#adding Gallery API Key to Environment
-$env:PS_GALLERY_API_KEY = "XXX"
+```powershell
+#Start Local Shell
+powershell
+.\Prepare-Env.ps1
 
-#list module path
-$env:PSModulePath -split ';'
-
-#adding local folder to PSModulePath
-$env:PSModulePath = $env:PSModulePath + ";$(Get-Location)"
-
-Publish-Module -Name FileDownloadDSC -NuGetApiKey $env:PS_GALLERY_API_KEY 
+#Analyze Module
+Invoke-ScriptAnalyzer -Path .\FileDownloadDSC\
+Test-xDscResource .\FileDownloadDSC\DSCResources\FileDownload
+Test-xDscSchema .\FileDownloadDSC\DSCResources\FileDownload\FileDownload.schema.mof
 
 ```
 
 ## Links
 
-https://hodgkins.io/five-tips-for-writing-dsc-resources-in-powershell-version-5
-https://kevinmarquette.github.io/2017-05-27-Powershell-module-building-basics/?utm_source=blog&utm_medium=blog&utm_content=psrepository
+* https://hodgkins.io/five-tips-for-writing-dsc-resources-in-powershell-version-5
+* https://kevinmarquette.github.io/2017-05-27-Powershell-module-building-basics/?utm_source=blog&utm_medium=blog&utm_content=psrepository
+* https://docs.microsoft.com/en-us/powershell/dsc/resourceauthoringchecklist
