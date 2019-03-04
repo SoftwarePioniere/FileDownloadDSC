@@ -1,6 +1,35 @@
-#script to deploy with appveyor
-#$env:PSModulePath = $env:PSModulePath + ";$(Get-Location)"
+[CmdletBinding()]
+Param(
+    [string]$version = "9.9.9",
+    [string]$apiKey
+)
 
-Update-ModuleManifest -Path .\FileDownloadDSC\FileDownloadDSC.psd1 -ModuleVersion $env:APPVEYOR_BUILD_VERSION
-Publish-Module -Path .\FileDownloadDSC -NuGetApiKey $env:PS_GALLERY_API_KEY 
-#Publish-Module -Name FileDownloadDSC -NuGetApiKey $env:PS_GALLERY_API_KEY 
+$moduleDir = "$(Get-Location)\xxModules"
+
+if (!(Test-Path -Path $moduleDir)) {
+    Write-Host "Creating Temp Modules Dir $moduleDir"
+    New-Item -Path $moduleDir -ItemType Directory
+}
+
+$mod = Import-PowerShellDataFile ./FileDownloadDSC/FileDownloadDSC.psd1
+
+foreach ($m in $mod.RequiredModules) {
+    Write-Host "Saving Module" $m.ModuleName $m.ModuleVersion
+    
+    $path ="$moduleDir\$($m.ModuleName)\$($m.ModuleVersion)"
+    Write-Host "Local Path" $path
+    if (!(Test-Path -Path $path)) {
+        Save-Module -Name $m.ModuleName -RequiredVersion $m.ModuleVersion -Path $moduleDir
+    }
+}
+
+$env:PSModulePath = "$env:PSModulePath;$moduleDir";
+Write-Host "Changed ModulePath" $env:PSModulePath
+
+Write-Host "Updating Module Manifest... with Version: $version"
+Update-ModuleManifest -Path .\FileDownloadDSC\FileDownloadDSC.psd1 -ModuleVersion $version
+
+if ($apiKey) {
+    Write-Host "Publishing Module... "
+    Publish-Module -Path .\FileDownloadDSC -NuGetApiKey $apiKey
+}

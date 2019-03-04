@@ -1,5 +1,5 @@
 @{
-    ModuleVersion     = "0.0.0";
+    ModuleVersion     = "99.99.99";
     GUID              = "63148c2d-2be3-4626-b44b-ff05a665271d";
     Author            = "Tobias Boeker";
     CompanyName       = "Softwarepioniere GmbH & Co. KG";
